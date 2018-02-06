@@ -1,0 +1,144 @@
+#!/bin/bash
+
+# IMPORT GENERIC HELPERS
+source /usr/share/yunohost/helpers
+
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+# Import common cmd
+source ./experimental_helper.sh
+source ./_common.sh
+
+# RETRIEVE ARGUMENTS FROM THE MANIFEST
+domain=$YNH_APP_ARG_DOMAIN
+path_url=$(ynh_normalize_url_path $YNH_APP_ARG_PATH)
+admin=$YNH_APP_ARG_ADMIN
+is_public=$YNH_APP_ARG_IS_PUBLIC
+service_autodiscovery=$YNH_APP_ARG_SERVICE_AUTODISCOVERY
+language=$YNH_APP_ARG_LANGUAGE
+whups_install=$YNH_APP_ARG_WHUPS_INSTALL
+sesha_install=$YNH_APP_ARG_SESHA_INSTALL
+ansel_install=$YNH_APP_ARG_ANSEL_INSTALL
+wicked_install=$YNH_APP_ARG_WICKED_INSTALL
+
+# Set variable
+final_path="/var/www/$app"
+
+# STORE SETTINGS FROM MANIFEST
+ynh_app_setting_set $app admin $admin
+ynh_app_setting_set $app language $language
+ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set $app is_public $is_public
+ynh_app_setting_set $app service_autodiscovery $service_autodiscovery
+ynh_app_setting_set $app whups_install $whups_install
+ynh_app_setting_set $app sesha_install $sesha_install
+ynh_app_setting_set $app ansel_install $ansel_install
+ynh_app_setting_set $app wicked_install $wicked_install
+
+# Check web path availability
+ynh_webpath_available $domain $path_url
+# Register (book) web path
+ynh_webpath_register $app $domain $path_url
+
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+test ! -e "$final_path" || ynh_die "This path already contains a folder"
+
+# Set list of optionnal app to install
+optionnal_apps_list=""
+
+if [[ $whups_install == 1 ]]
+then
+    optionnal_apps_list="$optionnal_apps_list horde/whups"
+fi
+if [[ $sesha_install == 1 ]]
+then
+    optionnal_apps_list="$optionnal_apps_list horde/sesha"
+fi
+# if [[ $ansel_install == 1 ]]
+# then
+#     optionnal_apps_list="$optionnal_apps_list horde/ansel"
+# fi
+if [[ $wicked_install == 1 ]]
+then
+    optionnal_apps_list="$optionnal_apps_list horde/wicked"
+fi
+
+# Enable all necessary locales
+if [[ "$language" != "en" ]]
+then
+    locale_lang=$(egrep -i "(${language})_\1\.UTF-8" /etc/locale.gen | egrep -o "[a-z]{2}_[A-Z]{2}\.UTF-8")
+    ynh_replace_string "^#\s$locale_lang" "$locale_lang" /etc/locale.gen
+    locale-gen
+fi
+
+# INSTALL DEPENDENCIES
+install_dependance
+
+# CREATE A MYSQL DATABASE
+db_name=$(ynh_sanitize_dbid $app)
+db_user=$db_name
+ynh_app_setting_set $app db_name $db_name
+ynh_app_setting_set $app db_user $db_user
+db_pwd=$(ynh_string_random 15)
+ynh_mysql_setup_db $db_name $db_user $db_pwd
+
+# Create a system user
+ynh_system_user_create $app
+
+# Set execution for expect scripts
+chmod +x ../conf/init_horde_install.exp
+chmod +x ../conf/config_horde.exp
+
+# Install horde by pear
+mkdir $final_path
+mkdir $final_path/data
+mkdir -p $gollem_data_dir
+
+pear config-create "$final_path" "$final_path/pear.conf"
+pear -c "$final_path/pear.conf" install -o -f pear
+
+pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
+
+$pear_cmd config-set auto_discover 1
+$pear_cmd config-set data_dir $final_path/data
+$pear_cmd channel-discover pear.horde.org
+
+$pear_cmd install horde/horde_role
+
+../conf/init_horde_install.exp "$final_path" "$final_path/horde"
+
+$pear_cmd config-set horde_dir "$final_path/horde"
+$pear_cmd install -a -B horde/webmail $optionnal_apps_list
+
+PHP_PEAR_SYSCONF_DIR=$final_path ../conf/config_horde.exp "$final_path" "$db_name" "$db_user" "$db_pwd" "$admin"
+secret_key=$(grep 'secret_key' "$final_path/horde/config/conf.php" | cut -d"'" -f4)
+ynh_app_setting_set $app secret_key "$secret_key"
+
+# Patch the app
+patch_app
+
+# Configure Horde
+config_horde
+
+# Create a dedicated nginx config
+config_nginx
+
+# Create a dedicated php-fpm config
+ynh_add_fpm_config
+
+# SECURE FILES AND DIRECTORIES
+set_permission
+
+# configure the sso
+if [ "$is_public" = "0" ];
+then	# Retire l'accès public
+	ynh_app_setting_delete $app skipped_uris
+else
+    ynh_app_setting_set $app skipped_uris "/"
+fi
+
+# SETUP LOGROTATE
+ynh_use_logrotate $final_path/horde
+ynh_use_logrotate $final_path/horde/services
+ynh_use_logrotate $final_path/horde/services/portal

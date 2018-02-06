@@ -1,0 +1,39 @@
+diff -Naur a/login.php b/login.php
+--- a/login.php	2018-01-06 22:18:02.000000000 +0100
++++ b/login.php	2018-01-06 23:13:50.562577137 +0100
+@@ -130,7 +130,8 @@
+     /* Explicitly set language in un-authenticated session. */
+     $registry->setLanguage($GLOBALS['language']);
+ } elseif (Horde_Util::getPost('login_post') ||
+-          Horde_Util::getPost('login_button')) {
++          Horde_Util::getPost('login_button') || 
++          !empty($_SERVER['REMOTE_USER'])) {
+     $select_view = Horde_Util::getPost('horde_select_view');
+     if ($select_view == 'mobile_nojs') {
+         $nojs = true;
+@@ -144,6 +145,16 @@
+         'password' => Horde_Util::getPost('horde_pass'),
+         'mode' => $select_view
+     );
++    $user = Horde_Util::getPost('horde_user');
++
++    /* Get auth from SSO */
++    if ($_SERVER['PHP_AUTH_PW']) {
++        $auth_params = array(
++            'password' => $_SERVER['PHP_AUTH_PW'],
++            'mode' => $select_view
++        );
++        $user = $_SERVER['REMOTE_USER'];
++    }
+ 
+     try {
+         $result = $auth->getLoginParams();
+@@ -152,7 +163,7 @@
+         }
+     } catch (Horde_Exception $e) {}
+ 
+-    if ($auth->authenticate(Horde_Util::getPost('horde_user'), $auth_params)) {
++    if ($auth->authenticate($user, $auth_params)) {
+         Horde::log(
+             sprintf(
+                 'Login success for %s to %s (%s)',

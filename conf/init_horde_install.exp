@@ -1,0 +1,12 @@
+#!/usr/bin/expect
+set timeout 10
+
+set final_path  [lindex $argv 0]
+set horde_path [lindex $argv 1]
+
+spawn $final_path/pear/pear -c $final_path/pear.conf run-scripts horde/horde_role
+
+expect "Filesystem location for the base Horde application"
+send "$horde_path\r";
+
+interact

@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# IMPORT GENERIC HELPERS
+source /usr/share/yunohost/helpers
+
+cp -r  /etc/yunohost/apps/horde/conf ../ # Quick hack for https://github.com/YunoHost/yunohost/pull/427
+
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+# Import common cmd
+source ./experimental_helper.sh
+source ./_common.sh
+
+# RETRIEVE ARGUMENTS
+old_domain=$YNH_APP_OLD_DOMAIN
+old_path=$YNH_APP_OLD_PATH
+new_domain=$YNH_APP_NEW_DOMAIN
+new_path=$YNH_APP_NEW_PATH
+app=$YNH_APP_INSTANCE_NAME
+
+admin=$(ynh_app_setting_get $app admin)
+final_path=$(ynh_app_setting_get $app final_path)
+port=$(ynh_app_setting_get $app port)
+secret_key=$(ynh_app_setting_get $app secret_key)
+db_name=$(ynh_app_setting_get $app db_name)
+db_user=$(ynh_app_setting_get $app db_user)
+db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+
+# CHECK THE SYNTAX OF THE PATHS
+test -n "$old_path" || old_path="/"
+test -n "$new_path" || new_path="/"
+new_path=$(ynh_normalize_url_path $new_path)
+old_path=$(ynh_normalize_url_path $old_path)
+
+domain="$new_domain"
+path_url="$new_path"
+
+# CHECK WHICH PARTS SHOULD BE CHANGED
+change_domain=0
+if [ "$old_domain" != "$new_domain" ]
+then
+    change_domain=1
+fi
+
+change_path=0
+if [ "$old_path" != "$new_path" ]
+then
+    change_path=1
+fi
+
+# MODIFY URL IN NGINX CONF
+nginx_conf_path=/etc/nginx/conf.d/$old_domain.d/$app.conf
+
+# Change the path in the nginx config file
+# if [ $change_path -eq 1 ]
+# then
+#     # Make a backup of the original nginx config file if modified
+#     ynh_backup_if_checksum_is_different "$nginx_conf_path"
+#     # Replace locations starting with old_path
+#     # Look for every location possible patterns (see https://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+#     ynh_replace_string "location\( \(=\|~\|~\*\|\^~\)\)\? $old_path" "location\1 $new_path"  "$nginx_conf_path"
+#     # Replace path in "return" directives
+#     ynh_replace_string "return \([[:digit:]]\{3\}\) $old_path" "return \1 $new_path"  "$nginx_conf_path"
+#     # Calculate and store the nginx config file checksum
+#     ynh_store_file_checksum "$nginx_conf_path"
+# fi
+
+# Change the domain for nginx
+if [ $change_domain -eq 1 ]
+then
+    # Delete file checksum for the old conf file location
+    ynh_delete_file_checksum "$nginx_conf_path"
+    mv $nginx_conf_path /etc/nginx/conf.d/$new_domain.d/$app.conf
+    # Store file checksum for the new config file location
+    ynh_store_file_checksum "/etc/nginx/conf.d/$new_domain.d/$app.conf"
+fi
+
+config_nginx
+
+# Update horde config
+config_horde
+
+# RELOAD NGINX
+systemctl reload nginx

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# IMPORT GENERIC HELPERS
+source /usr/share/yunohost/helpers
+
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+# Import common cmd
+source ./experimental_helper.sh
+source ./_common.sh
+
+
+# LOAD SETTINGS
+domain=$(ynh_app_setting_get $app domain)
+path_url=$(ynh_normalize_url_path $(ynh_app_setting_get $app path))
+admin=$(ynh_app_setting_get $app admin)
+service_autodiscovery=$(ynh_app_setting_get $app service_autodiscovery)
+final_path=$(ynh_app_setting_get $app final_path)
+port=$(ynh_app_setting_get $app port)
+secret_key=$(ynh_app_setting_get $app secret_key)
+db_name=$(ynh_app_setting_get $app db_name)
+db_user=$(ynh_app_setting_get $app db_user)
+db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+
+ynh_clean_setup () {
+	# restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+# INSTALL DEPENDENCIES
+install_dependance
+
+# Upgrade Horde by PEAR
+pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
+$pear_cmd channel-update pear.horde.org
+$pear_cmd upgrade -R $final_path -a -B -c pear.horde.org
+
+# Patch the app
+patch_app
+
+# Configure Horde
+config_horde
+
+# NGINX CONFIGURATION
+config_nginx
+
+# SECURE FILES AND DIRECTORIES
+set_permission

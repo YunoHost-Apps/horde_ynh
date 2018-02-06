@@ -1,0 +1,120 @@
+{
+    "name": "Horde",
+    "id": "horde",
+    "packaging_format": 1,
+    "description": {
+        "en": "A groupware (webmail, adressbook, calendar) witch use PHP",
+        "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
+    },
+    "version": "5.2.22~ynh1",
+    "url": "https://www.horde.org/",
+    "license": "LGPL-2.0",
+    "maintainer": {
+        "name": "Josué Tille",
+        "email": "josue@tille.ch"
+    },
+    "requirements": {
+        "yunohost": ">= 2.7.2"
+    },
+    "multi_instance": true,
+    "services": [
+        "nginx",
+        "php5-fpm",
+        "mysql"
+    ],
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "type": "domain",
+                "ask": {
+                    "en": "Choose a domain name for Horde",
+                    "fr": "Choisissez un nom de domaine pour Horde"
+                },
+                "example": "example.com"
+            },
+            {
+                "name": "path",
+                "type": "path",
+                "ask": {
+                    "en": "Choose a path for Horde",
+                    "fr": "Choisissez un chemin pour Horde"
+                },
+                "example": "/horde",
+                "default": "/horde"
+            },
+            {
+                "name": "admin",
+                "type": "user",
+                "ask": {
+                    "en": "Choose an admin user",
+                    "fr": "Choisissez l’administrateur"
+                },
+                "example": "johndoe"
+            },
+            {
+                "name": "is_public",
+                "type": "boolean",
+                "ask": {
+                    "en": "Is it a public server ?",
+                    "fr": "Est-ce un serveur publique ?"
+            },
+                "default": 0
+            },
+            {
+                "name": "service_autodiscovery",
+                "type": "boolean",
+                "ask": {
+                    "en": "Would you like to enable the caldDav/cardDAV service autodiscovery ?",
+                    "fr": "Voulez-vous activer l'autodécouverte des services calDAV/cardDAV ?"
+            },
+                "default": 0
+            },
+            {
+                "name": "language",
+                "ask": {
+                    "en": "Choose the application language",
+                    "fr": "Choisissez la langue de l'application"
+                },
+                "choices": [
+                    "bg", "de", "en", "es", "fi", "fo", "fr", "hr", "hu",
+                    "id", "is", "it", "lt", "lv", "mg", "mk", "mt", "nl",
+                    "pl", "pt", "ro", "ru", "sk", "so", "th", "tr", "uz"
+                    ],
+                "default": "en"
+            },
+            {
+                "name": "whups_install",
+                "type": "boolean",
+                "ask": {
+                    "en": "Install a ticket-tracking system (Whups) ?"
+                },
+                "default": 0
+            },
+            {
+                "name": "sesha_install",
+                "type": "boolean",
+                "ask": {
+                    "en": "Install a Inventory Manager (Sesha) ?"
+                },
+                "default": 0
+            },
+            {
+                "name": "ansel_install",
+                "type": "boolean",
+                "ask": {
+                    "en": "Install a full featured phpto management (Ansel) ?"
+                },
+                "default": 0
+            },
+            {
+                "name": "wicked_install",
+                "type": "boolean",
+                "ask": {
+                    "en": "Install a Wiki (Wicked) ?"
+                },
+                "default": 0
+            }
+        ]
+    }
+}

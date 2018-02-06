@@ -1,0 +1,48 @@
+#!/usr/bin/expect
+set timeout 10
+
+set final_path  [lindex $argv 0]
+set db_name [lindex $argv 1]
+set db_user [lindex $argv 2]
+set db_password [lindex $argv 3]
+set admin_user [lindex $argv 4]
+
+spawn php -d include_path=$final_path/pear/php $final_path/pear/webmail-install
+
+expect "What database backend should we use?"
+send "mysql\r";
+
+expect "Username to connect to the database as"
+send "$db_user\r";
+
+expect "Password to connect with"
+send "$db_password\r";
+
+expect "How should we connect to the database?"
+send "tcp\r";
+
+expect "Database server/host"
+send "localhost\r";
+
+expect "Port the DB is running on, if non-standard"
+send "3306\r";
+
+expect "Database name to use"
+send "$db_name\r";
+
+expect "Internally used charset"
+send "\r";
+
+expect "Use SSL to connect to the server?"
+send "false\r";
+
+expect "Split reads to a different server?"
+send "false\r";
+
+expect "level to your configured logger."
+send "0\r";
+
+expect "Specify an existing mail user who you want to give administrator"
+send "$admin_user\r";
+
+interact
