@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# GENERIC START
+#=================================================
+
 # Source YunoHost helpers
 source /usr/share/yunohost/helpers
 
@@ -9,9 +13,6 @@ ynh_abort_if_errors
 # Import common cmd
 source ../settings/scripts/experimental_helper.sh
 source ../settings/scripts/_common.sh
-
-# LOAD SETTINGS
-app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
 path_url=$(ynh_app_setting_get $app path)
@@ -23,6 +24,10 @@ ynh_webpath_available $domain $path_url \
 	|| ynh_die "Path not available: ${domain}${path_url}"
 test ! -d $final_path \
 	|| ynh_die "There is already a directory: $final_path "
+
+#=================================================
+# STANDARD RESTORATION STEPS
+#=================================================
 
 # Define and install dependencies
 install_dependance
@@ -37,6 +42,10 @@ ynh_restore
 db_pwd=$(ynh_app_setting_get $app mysqlpwd)
 ynh_mysql_setup_db $db_name $db_name $db_pwd
 ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
 
 # SECURE FILES AND DIRECTORIES
 set_permission

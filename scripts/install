@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# GENERIC START
+#=================================================
+
 # IMPORT GENERIC HELPERS
 source /usr/share/yunohost/helpers
 
@@ -64,6 +68,10 @@ then
     optionnal_apps_list="$optionnal_apps_list horde/wicked"
 fi
 
+#=================================================
+# STANDARD MODIFICATIONS
+#=================================================
+
 # Enable all necessary locales
 if [[ "$language" != "en" ]]
 then
@@ -126,6 +134,10 @@ config_nginx
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
 
 # SECURE FILES AND DIRECTORIES
 set_permission

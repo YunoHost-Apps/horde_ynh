@@ -1,7 +1,16 @@
 #!/bin/bash
 
+#=================================================
+# SET ALL CONSTANTS
+#=================================================
+
 app=$YNH_APP_INSTANCE_NAME
+final_path="/var/www/$app"
 gollem_data_dir="/home/yunohost.app/$app"
+
+#=================================================
+# DEFINE ALL COMMON FONCTIONS
+#=================================================
 
 install_dependance() {
     ynh_install_app_dependencies php-pear expect php5-imagick php5-tidy

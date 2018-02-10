@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# GENERIC START
+#=================================================
+
 # IMPORT GENERIC HELPERS
 source /usr/share/yunohost/helpers
 
@@ -9,7 +13,6 @@ ynh_abort_if_errors
 # Import common cmd
 source ./experimental_helper.sh
 source ./_common.sh
-
 
 # LOAD SETTINGS
 domain=$(ynh_app_setting_get $app domain)
@@ -33,6 +36,10 @@ ynh_clean_setup () {
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
+#=================================================
+# STANDARD UPGRADE STEPS
+#=================================================
+
 # INSTALL DEPENDENCIES
 install_dependance
 
@@ -49,6 +56,10 @@ config_horde
 
 # NGINX CONFIGURATION
 config_nginx
+
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
 
 # SECURE FILES AND DIRECTORIES
 set_permission
