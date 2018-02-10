@@ -59,7 +59,7 @@
                     "en": "Is it a public server ?",
                     "fr": "Est-ce un serveur publique ?"
             },
-                "default": 0
+                "default": false
             },
             {
                 "name": "service_autodiscovery",
@@ -68,7 +68,7 @@
                     "en": "Would you like to enable the caldDav/cardDAV service autodiscovery ?",
                     "fr": "Voulez-vous activer l'autodécouverte des services calDAV/cardDAV ?"
             },
-                "default": 0
+                "default": false
             },
             {
                 "name": "language",
@@ -89,7 +89,7 @@
                 "ask": {
                     "en": "Install a ticket-tracking system (Whups) ?"
                 },
-                "default": 0
+                "default": false
             },
             {
                 "name": "sesha_install",
@@ -97,7 +97,7 @@
                 "ask": {
                     "en": "Install a Inventory Manager (Sesha) ?"
                 },
-                "default": 0
+                "default": false
             },
             {
                 "name": "ansel_install",
@@ -105,7 +105,7 @@
                 "ask": {
                     "en": "Install a full featured phpto management (Ansel) ?"
                 },
-                "default": 0
+                "default": false
             },
             {
                 "name": "wicked_install",
@@ -113,7 +113,7 @@
                 "ask": {
                     "en": "Install a Wiki (Wicked) ?"
                 },
-                "default": 0
+                "default": false
             }
         ]
     }
