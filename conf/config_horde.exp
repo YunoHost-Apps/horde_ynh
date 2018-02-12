@@ -46,3 +46,5 @@ expect "Specify an existing mail user who you want to give administrator"
 send "$admin_user\r";
 
 interact
+
+wait
