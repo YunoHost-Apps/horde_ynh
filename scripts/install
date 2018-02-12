@@ -127,6 +127,7 @@ ynh_app_setting_set $app secret_key "$secret_key"
 patch_app
 
 # Configure Horde
+ls -la /var/www/horde/horde/imp/config
 config_horde
 
 # Create a dedicated nginx config

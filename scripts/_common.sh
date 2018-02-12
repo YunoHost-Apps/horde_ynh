@@ -24,6 +24,7 @@ patch_app() {
 
 config_horde() {
     ynh_backup_if_checksum_is_different "$final_path/horde/config/conf.php"
+    ynh_backup_if_checksum_is_different "$final_path/horde/imp/config/conf.php"
     ynh_backup_if_checksum_is_different "$final_path/horde/config/registry.local.php"
     ynh_backup_if_checksum_is_different "$final_path/horde/gollem/config/backends.local.php"
     ynh_backup_if_checksum_is_different "$final_path/horde/ingo/config/backends.local.php"
@@ -38,6 +39,8 @@ config_horde() {
     ynh_replace_string "__ADMIN_USER__" "$admin" "$final_path/horde/config/conf.php"
     ynh_replace_string "__SECRET_KEY__" "$secret_key" "$final_path/horde/config/conf.php"
     
+    cp ../conf/horde_imp_conf.php "$final_path/horde/imp/config/conf.php"
+    
     cp ../conf/horde_registry.php "$final_path/horde/config/registry.local.php"
     ynh_replace_string "__PATH__" "$path_url" "$final_path/horde/config/registry.local.php"
 
@@ -47,6 +50,7 @@ config_horde() {
     cp ../conf/ingo_backends.php "$final_path/horde/ingo/config/backends.local.php"
 
     ynh_store_file_checksum "$final_path/horde/config/conf.php"
+    ynh_store_file_checksum "$final_path/horde/imp/config/conf.php"
     ynh_store_file_checksum "$final_path/horde/config/registry.local.php"
     ynh_store_file_checksum "$final_path/horde/gollem/config/backends.local.php"
     ynh_store_file_checksum "$final_path/horde/ingo/config/backends.local.php"
