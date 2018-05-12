@@ -103,7 +103,7 @@
                 "name": "ansel_install",
                 "type": "boolean",
                 "ask": {
-                    "en": "Install a full featured phpto management (Ansel) ?"
+                    "en": "Install a full featured photo management (Ansel) ?"
                 },
                 "default": false
             },
