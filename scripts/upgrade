@@ -46,7 +46,7 @@ install_dependance
 # Upgrade Horde by PEAR
 pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
 $pear_cmd channel-update pear.horde.org
-$pear_cmd upgrade -R $final_path -a -B -c pear.horde.org
+$pear_cmd upgrade -R $final_path -a -B -c pear.horde.org || true
 
 # Patch the app
 patch_app
