@@ -151,6 +151,6 @@ else
 fi
 
 # SETUP LOGROTATE
-ynh_use_logrotate $final_path/horde
-ynh_use_logrotate $final_path/horde/services
-ynh_use_logrotate $final_path/horde/services/portal
+ynh_use_logrotate $final_path/horde --non-append www-data/horde
+ynh_use_logrotate $final_path/horde/services --append www-data/horde
+ynh_use_logrotate $final_path/horde/services/portal --append www-data/horde

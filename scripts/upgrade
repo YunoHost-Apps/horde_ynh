@@ -63,3 +63,8 @@ config_nginx
 
 # SECURE FILES AND DIRECTORIES
 set_permission
+
+# SETUP LOGROTATE
+ynh_use_logrotate $final_path/horde --non-append www-data/horde
+ynh_use_logrotate $final_path/horde/services --append www-data/horde
+ynh_use_logrotate $final_path/horde/services/portal --append www-data/horde
