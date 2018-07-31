@@ -6,7 +6,7 @@
         "en": "A groupware (webmail, adressbook, calendar) witch use PHP",
         "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
     },
-    "version": "5.2.22~ynh3",
+    "version": "5.2.22~ynh4",
     "url": "https://www.horde.org/",
     "license": "LGPL-2.0",
     "maintainer": {
