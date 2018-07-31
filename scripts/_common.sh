@@ -57,10 +57,6 @@ config_horde() {
 }
 
 config_nginx() {
-    if [ "$path_url" != "/" ]
-    then
-        ynh_replace_string "^#sub_path_only" "" "../conf/nginx.conf"
-    fi
     ynh_add_nginx_config
     [[ $service_autodiscovery ]] && add_nginx_autodiscovery
     ynh_store_file_checksum "/etc/nginx/conf.d/$domain.d/$app.conf"
