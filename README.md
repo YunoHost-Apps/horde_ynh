@@ -1,30 +1,59 @@
 Horde for yunohost
-========================
+==================
 
-*https://www.horde.org/
+[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://ci-apps.yunohost.org/jenkins/job/horde%20%28Community%29/lastBuild/consoleFull)  
+[![Install horde with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=horde)
 
-[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://ci-apps.yunohost.org/jenkins/job/horde%20%28Community%29/lastBuild/consoleFull) 
+> *This package allow you to install horde quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
 
-[![Install Horde with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=horde)
+Overview
+--------
 
-Install
--------
+A groupware (webmail, adressbook, calendar) witch use PHP
 
-From command line:
+**Shipped version:** 5.2.22
 
-`sudo yunohost app install -l horde https://github.com/YunoHost-Apps/horde_ynh`
+Screenshots
+-----------
 
-Upgrade
--------
+![](https://www.horde.org/images/slides/h5slider.png)
 
-From command line:
+Demo
+----
 
-`sudo yunohost app upgrade -u https://github.com/YunoHost-Apps/horde_ynh`
+* [Official demo](http://demo.horde.org/)
 
-Customisation
+Documentation
 -------------
 
-### Install others app.
+ * Official documentation: https://wiki.horde.org/
+ * YunoHost documentation: There no other documentations, feel free to contribute.
+
+YunoHost specific features
+--------------------------
+
+### Multi-users support
+
+This app support the SSO and LDAP.
+
+### Supported architectures
+
+* x86-64b - [![Build Status](https://ci-apps.yunohost.org/jenkins/job/horde%20(Community)/badge/icon)](https://ci-apps.yunohost.org/jenkins/job/horde%20(Community)/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/jenkins/job/horde%20(Community)%20(%7EARM%7E)/badge/icon)](https://ci-apps-arm.yunohost.org/jenkins/job/horde%20(Community)%20(%7EARM%7E)/)
+* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/jenkins/job/horde%20(Community)/badge/icon)](https://ci-stretch.nohost.me/jenkins/job/horde%20(Community)/)
+
+<!--Limitations
+-----------
+
+* Any known limitations.-->
+
+Additional informations
+-----------------------
+
+### Customisation
+
+#### Install others app.
 
 The package provide some apps, but it's could be possible to install some others apps. The list of all availabe apps are listed here : https://www.horde.org/apps
 
@@ -60,18 +89,11 @@ After you need to update the horde database schema and the horde config. So go o
 
 Now you should be able to use the new apps.
 
-Issue
------
-
-Any issue is welcome here : https://github.com/YunoHost-Apps/horde_ynh/issues
-
-ActiveSync
-----------
+### ActiveSync
 
 For calendar, task and addressbook activeSync has been configured but not yet tested.
 
-Troubleshotting
----------------
+### Troubleshotting
 
 **Get Address is missing domain while to try to send an email.**
 
@@ -79,6 +101,39 @@ Troubleshotting
 - To create this go in the settings wheel > Preferences > Global Preferences > Personal Information.
 - Complete the form and save it.
 - You might be able to sed an email now.
+
+Links
+-----
+
+ * Report a bug: https://github.com/YunoHost-Apps/horde_ynh/issues
+ * App website: https://www.horde.org/
+ * YunoHost website: https://yunohost.org/
+
+---
+
+Install
+-------
+
+From command line:
+
+`sudo yunohost app install -l horde https://github.com/YunoHost-Apps/horde_ynh`
+
+Upgrade
+-------
+
+From command line:
+
+`sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh`
+
+Developers infos
+----------------
+
+To try the testing branch, please proceed like that.
+```
+sudo yunohost app install https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
+or
+sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
+```
 
 License
 -------
