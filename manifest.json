@@ -3,7 +3,7 @@
     "id": "horde",
     "packaging_format": 1,
     "description": {
-        "en": "A groupware (webmail, adressbook, calendar) witch use PHP",
+        "en": "A groupware (webmail, adressbook, calendar) that uses PHP",
         "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
     },
     "version": "5.2.22~ynh3",
@@ -56,8 +56,8 @@
                 "name": "is_public",
                 "type": "boolean",
                 "ask": {
-                    "en": "Is it a public server ?",
-                    "fr": "Est-ce un serveur publique ?"
+                    "en": "Is it a public server?",
+                    "fr": "Est-ce un serveur publique?"
             },
                 "default": false
             },
@@ -65,8 +65,8 @@
                 "name": "service_autodiscovery",
                 "type": "boolean",
                 "ask": {
-                    "en": "Would you like to enable the caldDav/cardDAV service autodiscovery ?",
-                    "fr": "Voulez-vous activer l'autodécouverte des services calDAV/cardDAV ?"
+                    "en": "Would you like to enable the caldDav/cardDAV service autodiscovery?",
+                    "fr": "Voulez-vous activer l'autodécouverte des services calDAV/cardDAV?"
             },
                 "default": false
             },
@@ -87,7 +87,7 @@
                 "name": "whups_install",
                 "type": "boolean",
                 "ask": {
-                    "en": "Install a ticket-tracking system (Whups) ?"
+                    "en": "Install a ticket-tracking system (Whups)?"
                 },
                 "default": false
             },
@@ -95,7 +95,7 @@
                 "name": "sesha_install",
                 "type": "boolean",
                 "ask": {
-                    "en": "Install a Inventory Manager (Sesha) ?"
+                    "en": "Install a Inventory Manager (Sesha)?"
                 },
                 "default": false
             },
@@ -103,7 +103,7 @@
                 "name": "ansel_install",
                 "type": "boolean",
                 "ask": {
-                    "en": "Install a full featured photo management (Ansel) ?"
+                    "en": "Install a full featured photo management (Ansel)?"
                 },
                 "default": false
             },
@@ -111,7 +111,7 @@
                 "name": "wicked_install",
                 "type": "boolean",
                 "ask": {
-                    "en": "Install a Wiki (Wicked) ?"
+                    "en": "Install a Wiki (Wicked)?"
                 },
                 "default": false
             }
