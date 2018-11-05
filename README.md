@@ -1,7 +1,7 @@
 Horde for yunohost
 ==================
 
-[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://ci-apps.yunohost.org/jenkins/job/horde%20%28Community%29/lastBuild/consoleFull)  
+[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://ci-apps.yunohost.org/ci/apps/horde%20%28Community%29/lastBuild/consoleFull)  
 [![Install horde with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=horde)
 
 > *This package allow you to install horde quickly and simply on a YunoHost server.  
@@ -39,9 +39,10 @@ This app support the SSO and LDAP.
 
 ### Supported architectures
 
-* x86-64b - [![Build Status](https://ci-apps.yunohost.org/jenkins/job/horde%20(Community)/badge/icon)](https://ci-apps.yunohost.org/jenkins/job/horde%20(Community)/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/jenkins/job/horde%20(Community)%20(%7EARM%7E)/badge/icon)](https://ci-apps-arm.yunohost.org/jenkins/job/horde%20(Community)%20(%7EARM%7E)/)
-* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/jenkins/job/horde%20(Community)/badge/icon)](https://ci-stretch.nohost.me/jenkins/job/horde%20(Community)/)
+* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/horde%20(Community).svg)](https://ci-apps.yunohost.org/ci/apps/horde/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/horde%20(Community).svg)](https://ci-apps-arm.yunohost.org/ci/apps/horde/)
+* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/jenkins/job/horde%20(Community).svg)](https://ci-stretch.nohost.me/jenkins/job/horde/)
+
 
 <!--Limitations
 -----------
