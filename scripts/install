@@ -76,7 +76,9 @@ fi
 if [[ "$language" != "en" ]]
 then
     locale_lang=$(egrep -i "(${language})_\1\.UTF-8" /etc/locale.gen | egrep -o "[a-z]{2}_[A-Z]{2}\.UTF-8")
-    ynh_replace_string "^#\s$locale_lang" "$locale_lang" /etc/locale.gen
+    for l in $locale_lang; do
+        ynh_replace_string "^#\s$l" "$l" /etc/locale.gen
+    done
     locale-gen
 fi
 
