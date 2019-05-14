@@ -13,7 +13,7 @@ gollem_data_dir="/home/yunohost.app/$app"
 #=================================================
 
 install_dependance() {
-    ynh_install_app_dependencies php-pear expect 'php5-imagick|php-imagick' 'php5-tidy|php-tidy'
+    ynh_install_app_dependencies php-pear expect 'php5-imagick|php-imagick' 'php5-tidy|php-tidy' php-bcmath
 }
 
 patch_app() {
