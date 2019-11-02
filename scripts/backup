@@ -14,26 +14,33 @@ ynh_abort_if_errors
 source ../settings/scripts/experimental_helper.sh
 source ../settings/scripts/_common.sh
 
-final_path=$(ynh_app_setting_get $app final_path)
-domain=$(ynh_app_setting_get $app domain)
-db_name=$(ynh_app_setting_get $app db_name)
+ynh_script_progression --message="Loading installation settings..."
+
+final_path=$(ynh_app_setting_get --app $app --key final_path)
+domain=$(ynh_app_setting_get --app $app --key domain)
+db_name=$(ynh_app_setting_get --app $app --key db_name)
 
 #=================================================
 # STANDARD BACKUP STEPS
 #=================================================
 
 # BACKUP THE APP MAIN DIR
-ynh_backup "$final_path"
+ynh_script_progression --message="Backing up code..." --weight=3
+ynh_backup --src_path "$final_path"
 
 # Backup user data
-ynh_backup "$gollem_data_dir" "user_data" 1
+ynh_script_progression --message="Backing up user data..." --weight=10
+ynh_backup --src_path "$gollem_data_dir"
 
 # BACKUP THE NGINX CONFIGURATION
-ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
+ynh_script_progression --message="Backing up configuration..."
+ynh_backup --src_path "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 # BACKUP THE PHP-FPM CONFIGURATION
-ynh_backup "/etc/php5/fpm/pool.d/$app.conf"
-ynh_backup "/etc/php5/fpm/conf.d/20-$app.ini"
+ynh_backup --src_path "/etc/php5/fpm/pool.d/$app.conf"
 
 # BACKUP THE MYSQL DATABASE
+ynh_script_progression --message="Backing up database"
 ynh_mysql_dump_db "$db_name" > db.sql
+
+ynh_script_progression --message="Backup script completed for $app. (YunoHost will then actually copy those files to the archive)." --last

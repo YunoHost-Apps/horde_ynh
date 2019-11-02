@@ -14,17 +14,19 @@ ynh_abort_if_errors
 source ./experimental_helper.sh
 source ./_common.sh
 
+ynh_script_progression --message="Loading installation settings..."
+
 # LOAD SETTINGS
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_normalize_url_path $(ynh_app_setting_get $app path))
-admin=$(ynh_app_setting_get $app admin)
-service_autodiscovery=$(ynh_app_setting_get $app service_autodiscovery)
-final_path=$(ynh_app_setting_get $app final_path)
-port=$(ynh_app_setting_get $app port)
-secret_key=$(ynh_app_setting_get $app secret_key)
-db_name=$(ynh_app_setting_get $app db_name)
-db_user=$(ynh_app_setting_get $app db_user)
-db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+domain=$(ynh_app_setting_get --app $app --key domain)
+path_url=$(ynh_normalize_url_path --path_url $(ynh_app_setting_get --app $app --key path))
+admin=$(ynh_app_setting_get --app $app --key admin)
+service_autodiscovery=$(ynh_app_setting_get --app $app --key service_autodiscovery)
+final_path=$(ynh_app_setting_get --app $app --key final_path)
+port=$(ynh_app_setting_get --app $app --key port)
+secret_key=$(ynh_app_setting_get --app $app --key secret_key)
+db_name=$(ynh_app_setting_get --app $app --key db_name)
+db_user=$(ynh_app_setting_get --app $app --key db_user)
+db_pwd=$(ynh_app_setting_get --app $app --key mysqlpwd)
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -41,20 +43,26 @@ ynh_abort_if_errors
 #=================================================
 
 # INSTALL DEPENDENCIES
+ynh_script_progression --message="Upgrading dependencies..."
 install_dependance
 
 # Upgrade Horde by PEAR
+ynh_script_progression --message="Upgrading source files..." --weight=6
 pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
 $pear_cmd channel-update pear.horde.org
 $pear_cmd upgrade -R $final_path -a -B -c pear.horde.org || true
 
 # Patch the app
+ynh_script_progression --message="Patching application..." --weight=7
 patch_app
 
 # Configure Horde
+ynh_script_progression --message="Configuring application..." --weight=3
 config_horde
 
 # NGINX CONFIGURATION
+# Create a dedicated nginx config
+ynh_script_progression --message="Configuring nginx..." --weight=1
 config_nginx
 
 #=================================================
@@ -62,9 +70,13 @@ config_nginx
 #=================================================
 
 # SECURE FILES AND DIRECTORIES
+ynh_script_progression --message="Protecting directory..."
 set_permission
 
 # SETUP LOGROTATE
-ynh_use_logrotate $final_path/horde --non-append www-data/horde
-ynh_use_logrotate $final_path/horde/services --append www-data/horde
-ynh_use_logrotate $final_path/horde/services/portal --append www-data/horde
+ynh_script_progression --message="Configuring log rotation..."
+ynh_use_logrotate $final_path/horde --non-append --specific_user www-data/horde
+ynh_use_logrotate $final_path/horde/services --append --specific_user www-data/horde
+ynh_use_logrotate $final_path/horde/services/portal --append --specific_user www-data/horde
+
+ynh_script_progression --message="Upgrade of $app completed" --last

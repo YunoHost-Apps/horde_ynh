@@ -11,39 +11,48 @@ source /usr/share/yunohost/helpers
 source ./experimental_helper.sh
 source ./_common.sh
 
+ynh_script_progression --message="Loading installation settings..."
+
 # Retrieve app settings
 app=$YNH_APP_INSTANCE_NAME
-
-domain=$(ynh_app_setting_get $app domain)
-port=$(ynh_app_setting_get $app port)
-db_name=$(ynh_app_setting_get $app db_name)
-db_user=$(ynh_app_setting_get $app db_user)
-final_path=$(ynh_app_setting_get $app final_path)
+domain=$(ynh_app_setting_get --app $app --key domain)
+port=$(ynh_app_setting_get --app $app --key port)
+db_name=$(ynh_app_setting_get --app $app --key db_name)
+db_user=$(ynh_app_setting_get --app $app --key db_user)
+final_path=$(ynh_app_setting_get --app $app --key final_path)
 
 #=================================================
 # STANDARD REMOVE
 #=================================================
 
 # Remove metapackage and its dependencies
+ynh_script_progression --message="Removing dependencies" --weight=10
 ynh_remove_app_dependencies
 
 # Remove a database if it exists, along with the associated user
-ynh_mysql_remove_db $db_user $db_name
+ynh_script_progression --message="Removing databases..."
+ynh_mysql_remove_db --db_user $db_user --db_name $db_name
 
 # Remove the app directory securely
-ynh_secure_remove "$final_path"
+ynh_script_progression --message="Removing code..."
+ynh_secure_remove --file="$final_path"
 
 # Remove user data
-ynh_secure_remove "$gollem_data_dir"
+ynh_script_progression --message="Removing user data..."
+ynh_secure_remove --file="$gollem_data_dir"
 
 # Remove the dedicated nginx config
+ynh_script_progression --message="Removing nginx configuration..."
 ynh_remove_nginx_config
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
 
 # Delete a system user
-ynh_system_user_delete $app
+ynh_script_progression --message="Removing the dedicated system user..."
+ynh_system_user_delete --username $app
 
 # Remove the app-specific logrotate config
 ynh_remove_logrotate
+
+ynh_script_progression --message="Removal of $app completed" --last

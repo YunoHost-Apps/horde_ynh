@@ -14,47 +14,56 @@ ynh_abort_if_errors
 source ../settings/scripts/experimental_helper.sh
 source ../settings/scripts/_common.sh
 
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
-final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
+ynh_script_progression --message="Loading settings..."
+
+domain=$(ynh_app_setting_get --app $app --key domain)
+path_url=$(ynh_app_setting_get --app $app --key path)
+final_path=$(ynh_app_setting_get --app $app --key final_path)
+db_name=$(ynh_app_setting_get --app $app --key db_name)
 
 # CHECK IF THE APP CAN BE RESTORED
-ynh_webpath_available $domain $path_url \
-	|| ynh_die "Path not available: ${domain}${path_url}"
+ynh_webpath_available --domain $domain --path_url $path_url \
+	|| ynh_die --message "Path not available: ${domain}${path_url}"
 test ! -d $final_path \
-	|| ynh_die "There is already a directory: $final_path "
+	|| ynh_die --message "There is already a directory: $final_path "
 
 #=================================================
 # STANDARD RESTORATION STEPS
 #=================================================
 
 # Define and install dependencies
+ynh_script_progression --message="Reinstalling dependencies..." --weight=5
 install_dependance
 
 # Create the dedicated user (if not existing)
-ynh_system_user_create $app
+ynh_system_user_create --username $app
 
 # Restore all config and data
+ynh_script_progression --message="Restoring files..." --weight=10
 ynh_restore
 
 # RESTORE THE MYSQL DATABASE
-db_pwd=$(ynh_app_setting_get $app mysqlpwd)
-ynh_mysql_setup_db $db_name $db_name $db_pwd
-ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+ynh_script_progression --message="Restoring database..." --weight=3
+db_pwd=$(ynh_app_setting_get --app $app --key mysqlpwd)
+ynh_mysql_setup_db --db_user $db_name --db_name $db_name --db_pwd $db_pwd
+ynh_mysql_connect_as --user $db_name --password $db_pwd --database $db_name < ./db.sql
 
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
 
 # SECURE FILES AND DIRECTORIES
+ynh_script_progression --message="Protecting directory..."
 set_permission
 
 # SETUP LOGROTATE
-ynh_use_logrotate $final_path/horde --non-append www-data/horde
-ynh_use_logrotate $final_path/horde/services --append www-data/horde
-ynh_use_logrotate $final_path/horde/services/portal --append www-data/horde
+ynh_script_progression --message="Configuring log rotation..."
+ynh_use_logrotate $final_path/horde --non-append --specific_user www-data/horde
+ynh_use_logrotate $final_path/horde/services --append --specific_user www-data/horde
+ynh_use_logrotate $final_path/horde/services/portal --append --specific_user www-data/horde
 
 # Reload services
 systemctl reload php5-fpm
 systemctl reload nginx
+
+ynh_script_progression --message="Restoration completed for $app" --last
