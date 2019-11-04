@@ -167,7 +167,7 @@ fi
 
 # SETUP LOGROTATE
 ynh_script_progression --message="Configuring log rotation..."
-ynh_use_logrotate $final_path/horde --non-append --specific_user www-data/horde
+ynh_use_logrotate $final_path/horde --nonappend --specific_user www-data/horde
 ynh_use_logrotate $final_path/horde/services --append --specific_user www-data/horde
 ynh_use_logrotate $final_path/horde/services/portal --append --specific_user www-data/horde
 
