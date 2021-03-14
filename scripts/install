@@ -36,7 +36,6 @@ ynh_script_progression --message="Storing installation settings..."
 ynh_app_setting_set --app $app --key admin --value $admin
 ynh_app_setting_set --app $app --key language --value $language
 ynh_app_setting_set --app $app --key final_path --value $final_path
-ynh_app_setting_set --app $app --key is_public --value $is_public
 ynh_app_setting_set --app $app --key service_autodiscovery --value $service_autodiscovery
 ynh_app_setting_set --app $app --key whups_install --value $whups_install
 ynh_app_setting_set --app $app --key sesha_install --value $sesha_install
@@ -158,11 +157,11 @@ set_permission
 
 # configure the sso
 ynh_script_progression --message="Configuring permissions..."
-if [ "$is_public" = "0" ];
-then	# Retire l'accès public
-    ynh_app_setting_delete --app $app --key skipped_uris
-else
-    ynh_app_setting_set --app $app --key unprotected_uris --value "/"
+
+# Make app public if necessary
+if [ "$is_public" -eq 1 ]
+then
+	ynh_permission_update --permission="main" --add="visitors"
 fi
 
 # SETUP LOGROTATE
