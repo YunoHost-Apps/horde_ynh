@@ -4,6 +4,8 @@
 # SET ALL CONSTANTS
 #=================================================
 
+YNH_PHP_VERSION="7.3"
+
 app=$YNH_APP_INSTANCE_NAME
 final_path="/var/www/$app"
 gollem_data_dir="/home/yunohost.app/$app"
