@@ -3,51 +3,64 @@
 #=================================================
 # GENERIC START
 #=================================================
-
 # IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
 source /usr/share/yunohost/helpers
 
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+ynh_clean_setup () {
+	ynh_clean_check_starting
+}
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
-# Import common cmd
-source ./experimental_helper.sh
-source ./_common.sh
-
-ynh_script_progression --message="Validating installation parameters..."
-
+#=================================================
 # RETRIEVE ARGUMENTS FROM THE MANIFEST
+#=================================================
+
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$(ynh_normalize_url_path --path_url $YNH_APP_ARG_PATH)
-admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
-service_autodiscovery=$YNH_APP_ARG_SERVICE_AUTODISCOVERY
 language=$YNH_APP_ARG_LANGUAGE
+admin=$YNH_APP_ARG_ADMIN
+service_autodiscovery=$YNH_APP_ARG_SERVICE_AUTODISCOVERY
 whups_install=$YNH_APP_ARG_WHUPS_INSTALL
 sesha_install=$YNH_APP_ARG_SESHA_INSTALL
 ansel_install=$YNH_APP_ARG_ANSEL_INSTALL
 wicked_install=$YNH_APP_ARG_WICKED_INSTALL
 
-# Set variable
-final_path="/var/www/$app"
+app=$YNH_APP_INSTANCE_NAME
 
-# STORE SETTINGS FROM MANIFEST
-ynh_script_progression --message="Storing installation settings..."
-ynh_app_setting_set --app $app --key admin --value $admin
-ynh_app_setting_set --app $app --key language --value $language
-ynh_app_setting_set --app $app --key final_path --value $final_path
-ynh_app_setting_set --app $app --key is_public --value $is_public
-ynh_app_setting_set --app $app --key service_autodiscovery --value $service_autodiscovery
-ynh_app_setting_set --app $app --key whups_install --value $whups_install
-ynh_app_setting_set --app $app --key sesha_install --value $sesha_install
-ynh_app_setting_set --app $app --key ansel_install --value $ansel_install
-ynh_app_setting_set --app $app --key wicked_install --value $wicked_install
+#=================================================
+# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
+#=================================================
+ynh_script_progression --message="Validating installation parameters..."
+
+final_path=/var/www/$app
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
 
 # Register (book) web path
-ynh_webpath_register --app $app --domain $domain --path_url $path_url
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
-# CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
-test ! -e "$final_path" || ynh_die --message "This path already contains a folder"
+#=================================================
+# STORE SETTINGS FROM MANIFEST
+#=================================================
+ynh_script_progression --message="Storing installation settings..."
+
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=language --value=$language
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=service_autodiscovery --value=$service_autodiscovery
+ynh_app_setting_set --app=$app --key=whups_install --value=$whups_install
+ynh_app_setting_set --app=$app --key=sesha_install --value=$sesha_install
+ynh_app_setting_set --app=$app --key=ansel_install --value=$ansel_install
+ynh_app_setting_set --app=$app --key=wicked_install --value=$wicked_install
 
 # Set list of optionnal app to install
 optionnal_apps_list=""
@@ -85,31 +98,84 @@ then
     locale-gen
 fi
 
+#=================================================
 # INSTALL DEPENDENCIES
+#=================================================
 ynh_script_progression --message="Installing dependencies..." --weight=7
+
 install_dependance
 
-# CREATE A MYSQL DATABASE
-ynh_script_progression --message="Configuring MySQL database..."
-db_name=$(ynh_sanitize_dbid --db_name $app)
-db_user=$db_name
-ynh_app_setting_set --app $app --key db_name --value $db_name
-ynh_app_setting_set --app $app --key db_user --value $db_user
-ynh_mysql_setup_db --db_name $db_name --db_user $db_user
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
 
 # Create a system user
-ynh_script_progression --message="Configuring system user..."
-ynh_system_user_create --username $app
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
+#=================================================
+# CREATE A MYSQL DATABASE
+#=================================================
+ynh_script_progression --message="Creating a MySQL database..."
+
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_app_setting_set --app=$app --key=db_user --value=$db_user
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression --message="Setting up source files..."
+
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+# Download, check integrity, uncompress and patch the source from app.src
+mkdir $final_path
+mkdir $final_path/data
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Configuring NGINX web server..."
+
+# Create a dedicated NGINX config
+config_nginx
+
+#=================================================
+# PHP-FPM CONFIGURATION
+#=================================================
+ynh_script_progression --message="Configuring PHP-FPM..."
+
+# Create a dedicated PHP-FPM config
+ynh_add_fpm_config
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+# CREATE DATA DIRECTORY
+#=================================================
+ynh_script_progression --message="Creating a data directory..."
+
+gollem_data_dir=/home/yunohost.app/$app
+ynh_app_setting_set --app=$app --key=gollem_data_dir --value=$gollem_data_dir
+
+mkdir -p $gollem_data_dir
+
+chmod 750 "$gollem_data_dir"
+chmod -R o-rwx "$gollem_data_dir"
+chown -R $app:www-data "$gollem_data_dir"
+
+#=================================================
+# ...
+#=================================================
 # Set execution for expect scripts
 chmod +x ../conf/init_horde_install.exp
 chmod +x ../conf/config_horde.exp
-
-# Install horde by pear
-ynh_script_progression --message="Creating base directory..."
-mkdir $final_path
-mkdir $final_path/data
-mkdir -p $gollem_data_dir
 
 ynh_script_progression --message="Installing sources files..." --weight=7
 
@@ -131,7 +197,7 @@ $pear_cmd install -a -B horde/webmail $optionnal_apps_list
 
 PHP_PEAR_SYSCONF_DIR=$final_path ../conf/config_horde.exp "$final_path" "$db_name" "$db_user" "$db_pwd" "$admin"
 secret_key=$(grep 'secret_key' "$final_path/horde/config/conf.php" | cut -d"'" -f4)
-ynh_app_setting_set --app $app --key secret_key --value "$secret_key"
+ynh_app_setting_set --app=$app --key=secret_key --value="$secret_key"
 
 # Patch the app
 ynh_script_progression --message="Patching application..." --weight=7
@@ -141,34 +207,42 @@ patch_app
 ynh_script_progression --message="Configuring application..." --weight=3
 config_horde
 
-# Create a dedicated nginx config
-ynh_script_progression --message="Configuring nginx..." --weight=1
-config_nginx
-
-# Create a dedicated php-fpm config
-ynh_add_fpm_config
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-
 # SECURE FILES AND DIRECTORIES
 ynh_script_progression --message="Protecting directory..."
 set_permission
 
-# configure the sso
-ynh_script_progression --message="Configuring permissions..."
-if [ "$is_public" = "0" ];
-then	# Retire l'accès public
-    ynh_app_setting_delete --app $app --key skipped_uris
-else
-    ynh_app_setting_set --app $app --key unprotected_uris --value "/"
-fi
-
+#=================================================
+# GENERIC FINALIZATION
+#=================================================
 # SETUP LOGROTATE
+#=================================================
 ynh_script_progression --message="Configuring log rotation..."
+
 ynh_use_logrotate $final_path/horde --nonappend --specific_user www-data/horde
 ynh_use_logrotate $final_path/horde/services --append --specific_user www-data/horde
 ynh_use_logrotate $final_path/horde/services/portal --append --specific_user www-data/horde
 
-ynh_script_progression --message="Installation of $app completed" --last
+#=================================================
+# SETUP SSOWAT
+#=================================================
+ynh_script_progression --message="Configuring permissions..."
+
+if [ "$is_public" = "0" ];
+then	# Retire l'accès public
+    ynh_app_setting_delete --app=$app --key=skipped_uris
+else
+    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+fi
+
+#=================================================
+# RELOAD NGINX
+#=================================================
+ynh_script_progression --message="Reloading NGINX web server..."
+
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Installation of $app completed"
