@@ -26,6 +26,7 @@ secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$(ynh_app_setting_get --app=$app --key=db_user)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+gollem_data_dir=$(ynh_app_setting_get --app=$app --key=gollem_data_dir)
 
 #=================================================
 # CHECK VERSION
