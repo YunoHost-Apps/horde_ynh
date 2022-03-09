@@ -14,8 +14,11 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 old_domain=$YNH_APP_OLD_DOMAIN
-domain=$YNH_APP_NEW_DOMAIN
-path_url=$(ynh_normalize_url_path --path_url ${YNH_APP_NEW_PATH:-'/'})
+old_path=$YNH_APP_OLD_PATH
+
+new_domain=$YNH_APP_NEW_DOMAIN
+new_path=$(ynh_normalize_url_path --path_url ${YNH_APP_NEW_PATH:-'/'})
+
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -25,6 +28,8 @@ ynh_script_progression --message="Loading installation settings..."
 
 # Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+
+# Add settings here as needed by your application
 admin=$(ynh_app_setting_get --app=$app --key=admin)
 port=$(ynh_app_setting_get --app=$app --key=port)
 secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
@@ -32,6 +37,7 @@ service_autodiscovery=$(ynh_app_setting_get --app=$app --key=service_autodiscove
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$(ynh_app_setting_get --app=$app --key=db_user)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+gollem_data_dir=$(ynh_app_setting_get --app=$app --key=gollem_data_dir)
 
 #=================================================
 # BACKUP BEFORE CHANGE URL THEN ACTIVE TRAP
@@ -77,13 +83,13 @@ ynh_script_progression --message="Updating NGINX web server configuration..."
 nginx_conf_path=/etc/nginx/conf.d/$old_domain.d/$app.conf
 
 # Change the domain for NGINX
-if [ "$old_domain" != "$domain" ]
+if [ $change_domain -eq 1 ]
 then
-    # Delete file checksum for the old conf file location
-    ynh_delete_file_checksum --file="$nginx_conf_path"
-    mv $nginx_conf_path /etc/nginx/conf.d/$domain.d/$app.conf
-    # Store file checksum for the new config file location
-    ynh_store_file_checksum --file="/etc/nginx/conf.d/$domain.d/$app.conf"
+	# Delete file checksum for the old conf file location
+	ynh_delete_file_checksum --file="$nginx_conf_path"
+	mv $nginx_conf_path /etc/nginx/conf.d/$new_domain.d/$app.conf
+	# Store file checksum for the new config file location
+	ynh_store_file_checksum --file="/etc/nginx/conf.d/$new_domain.d/$app.conf"
 fi
 
 #=================================================
@@ -92,6 +98,8 @@ fi
 # ...
 #=================================================
 
+domain=$new_domain
+path_url=$new_path
 config_nginx
 
 # Update horde config
