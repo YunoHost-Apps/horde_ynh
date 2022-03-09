@@ -74,7 +74,7 @@ ynh_script_progression --message="Restoring the data directory..."
 
 ynh_restore_file --origin_path="$gollem_data_dir"
 
-mkdir -p $datadir
+mkdir -p $gollem_data_dir
 
 #=================================================
 # RESTORE THE PHP-FPM CONFIGURATION
