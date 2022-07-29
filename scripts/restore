@@ -76,6 +76,7 @@ mkdir -p $gollem_data_dir
 #=================================================
 ynh_script_progression --message="Reinstalling dependencies..." --weight=5
 
+# Define and install dependencies
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
