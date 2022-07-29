@@ -19,13 +19,13 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 admin=$(ynh_app_setting_get --app=$app --key=admin)
-service_autodiscovery=$(ynh_app_setting_get --app=$app --key=service_autodiscovery)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+service_autodiscovery=$(ynh_app_setting_get --app=$app --key=service_autodiscovery)
 port=$(ynh_app_setting_get --app=$app --key=port)
 secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$(ynh_app_setting_get --app=$app --key=db_user)
-db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 gollem_data_dir=$(ynh_app_setting_get --app=$app --key=gollem_data_dir)
 
 #=================================================
@@ -64,7 +64,7 @@ if ynh_legacy_permissions_exists; then
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
-# If final_path doesn't exist, create it
+# If gollem_data_dir doesn't exist, create it
 if [ -z "$gollem_data_dir" ]; then
 	gollem_data_dir=/home/yunohost.app/$app
 	ynh_app_setting_set --app=$app --key=gollem_data_dir --value=$gollem_data_dir
@@ -78,19 +78,11 @@ ynh_script_progression --message="Making sure dedicated system user exists..."
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
-config_nginx
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
 
-install_dependance
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -99,6 +91,14 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
+
+# Create a dedicated NGINX config
+config_nginx
 
 #=================================================
 # SPECIFIC UPGRADE

@@ -6,7 +6,7 @@
         "en": "A groupware (webmail, adressbook, calendar) that uses PHP",
         "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
     },
-    "version": "5.2.22~ynh4",
+    "version": "5.2.22~ynh5",
     "url": "https://www.horde.org/",
     "upstream": {
         "license": "LGPL-2.0",
@@ -30,7 +30,7 @@
         "mysql"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
                 "type": "domain"
@@ -62,12 +62,7 @@
             },
             {
                 "name": "admin",
-                "type": "user",
-                "ask": {
-                    "en": "Choose an admin user",
-                    "fr": "Choisissez l’administrateur"
-                },
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "service_autodiscovery",

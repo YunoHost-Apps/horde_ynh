@@ -2,10 +2,10 @@
 	; Manifest
 		domain="domain.tld"
 		path="/path"
-        is_public=1
+		is_public=1
 		language="fr"
 		admin="john"
-        service_autodiscovery=1
+		service_autodiscovery=1
 		whups_install=1
 		sesha_install=1
 		ansel_install=1

@@ -1,18 +1,15 @@
 #!/bin/bash
 
 #=================================================
-# SET ALL CONSTANTS
+# COMMON VARIABLES
 #=================================================
 
-
+# dependencies used by the app
+pkg_dependencies="php-pear expect php5-imagick|php-imagick php5-tidy|php-tidy php-bcmath"
 
 #=================================================
-# DEFINE ALL COMMON FONCTIONS
+# PERSONAL HELPERS
 #=================================================
-
-install_dependance() {
-    ynh_install_app_dependencies php-pear expect 'php5-imagick|php-imagick' 'php5-tidy|php-tidy' php-bcmath
-}
 
 patch_app() {
     local old_dir=$(pwd)
@@ -95,3 +92,11 @@ set_permission() {
     chmod u=rwX,g=rwX,o= -R $final_path
     chmod u=rwX,g=rwX,o= -R $gollem_data_dir
 }
+
+#=================================================
+# EXPERIMENTAL HELPERS
+#=================================================
+
+#=================================================
+# FUTURE OFFICIAL HELPERS
+#=================================================
