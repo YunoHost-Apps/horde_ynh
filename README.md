@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Horde for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![Working status](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)  
 [![Install Horde with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=horde)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -18,13 +18,13 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 A groupware (webmail, adressbook, calendar) witch use PHP
 
 
-**Shipped version:** 5.2.22~ynh4
+**Shipped version:** 5.2.22~ynh5
 
 **Demo:** http://demo.horde.org
 
 ## Screenshots
 
-![](./doc/screenshots/screenshot01.png)
+![Screenshot of Horde](./doc/screenshots/screenshot01.png)
 
 ## Disclaimers / important information
 
@@ -81,21 +81,22 @@ For calendar, task and addressbook activeSync has been configured but not yet te
 
 ## Documentation and resources
 
-* Official app website: https://www.horde.org
-* Official admin documentation: https://wiki.horde.org
-* Upstream app code repository: https://github.com/horde
-* YunoHost documentation for this app: https://yunohost.org/app_horde
-* Report a bug: https://github.com/YunoHost-Apps/horde_ynh/issues
+* Official app website: <https://www.horde.org>
+* Official admin documentation: <https://wiki.horde.org>
+* Upstream app code repository: <https://github.com/horde>
+* YunoHost documentation for this app: <https://yunohost.org/app_horde>
+* Report a bug: <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/horde_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>
