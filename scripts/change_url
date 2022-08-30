@@ -17,14 +17,14 @@ old_domain=$YNH_APP_OLD_DOMAIN
 old_path=$YNH_APP_OLD_PATH
 
 new_domain=$YNH_APP_NEW_DOMAIN
-new_path=$(ynh_normalize_url_path --path_url ${YNH_APP_NEW_PATH:-'/'})
+new_path=$YNH_APP_NEW_PATH
 
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 # Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
@@ -35,19 +35,18 @@ port=$(ynh_app_setting_get --app=$app --key=port)
 secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
 service_autodiscovery=$(ynh_app_setting_get --app=$app --key=service_autodiscovery)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$(ynh_app_setting_get --app=$app --key=db_user)
+db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 gollem_data_dir=$(ynh_app_setting_get --app=$app --key=gollem_data_dir)
 
 #=================================================
 # BACKUP BEFORE CHANGE URL THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before changing its URL (may take a while)..."
+ynh_script_progression --message="Backing up the app before changing its URL (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
-	ynh_clean_check_starting
 	# Remove the new domain config file, the remove script won't do it as it doesn't know yet its location.
 	ynh_secure_remove --file="/etc/nginx/conf.d/$new_domain.d/$app.conf"
 
@@ -78,9 +77,21 @@ fi
 #=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..."
+ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
 
 nginx_conf_path=/etc/nginx/conf.d/$old_domain.d/$app.conf
+
+# Change the path in the NGINX config file
+if [ $change_path -eq 1 ]
+then
+	# Make a backup of the original NGINX config file if modified
+	ynh_backup_if_checksum_is_different --file="$nginx_conf_path"
+	# Set global variables for NGINX helper
+	domain="$old_domain"
+	path_url="$new_path"
+	# Create a dedicated NGINX config
+	ynh_add_nginx_config
+fi
 
 # Change the domain for NGINX
 if [ $change_domain -eq 1 ]
@@ -92,18 +103,17 @@ then
 	ynh_store_file_checksum --file="/etc/nginx/conf.d/$new_domain.d/$app.conf"
 fi
 
-#=================================================
-# SPECIFIC MODIFICATIONS
-#=================================================
-# ...
-#=================================================
-
 domain=$new_domain
 path_url=$new_path
 config_nginx
 
-# Update horde config
+#=================================================
+# SPECIFIC MODIFICATIONS
+#=================================================
+# UPDATE HORDE CONFIG
+#=================================================
 ynh_script_progression --message="Configuring application..." --weight=3
+
 config_horde
 
 #=================================================
@@ -111,7 +121,7 @@ config_horde
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -119,4 +129,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app"
+ynh_script_progression --message="Change of URL completed for $app" --last

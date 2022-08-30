@@ -6,14 +6,14 @@
         "en": "A groupware (webmail, adressbook, calendar) that uses PHP",
         "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
     },
-    "version": "5.2.22~ynh5",
+    "version": "5.2.23~ynh1",
     "url": "https://www.horde.org/",
     "upstream": {
         "license": "LGPL-2.0",
         "website": "https://www.horde.org",
         "demo": "http://demo.horde.org",
         "admindoc": "https://wiki.horde.org",
-        "code": "https://github.com/horde"
+        "code": "https://github.com/horde/base"
     },
     "license": "LGPL-2.0",
     "maintainer": {
@@ -30,7 +30,7 @@
         "mysql"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
                 "type": "domain"
@@ -54,10 +54,34 @@
                     "fr": "Choisissez la langue de l'application"
                 },
                 "choices": [
-                    "bg", "de", "en", "es", "fi", "fo", "fr", "hr", "hu",
-                    "id", "is", "it", "lt", "lv", "mg", "mk", "mt", "nl",
-                    "pl", "pt", "ro", "ru", "sk", "so", "th", "tr", "uz"
-                    ],
+                    "bg",
+                    "de",
+                    "en",
+                    "es",
+                    "fi",
+                    "fo",
+                    "fr",
+                    "hr",
+                    "hu",
+                    "id",
+                    "is",
+                    "it",
+                    "lt",
+                    "lv",
+                    "mg",
+                    "mk",
+                    "mt",
+                    "nl",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "so",
+                    "th",
+                    "tr",
+                    "uz"
+                ],
                 "default": "en"
             },
             {
