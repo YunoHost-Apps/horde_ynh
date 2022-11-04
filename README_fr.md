@@ -18,8 +18,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 A groupware (webmail, adressbook, calendar) witch use PHP
 
 
-**Version incluse :** 5.2.22~ynh5
-
+**Version incluse :** 5.2.22~ynh5
 
 **Démo :** http://demo.horde.org
 
