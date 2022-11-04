@@ -20,7 +20,6 @@ A groupware (webmail, adressbook, calendar) witch use PHP
 
 **Shipped version:** 5.2.23~ynh1
 
-
 **Demo:** http://demo.horde.org
 
 ## Screenshots
