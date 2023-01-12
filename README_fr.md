@@ -18,7 +18,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 A groupware (webmail, adressbook, calendar) witch use PHP
 
 
-**Version incluse :** 5.2.22~ynh5
+**Version incluse :** 5.2.23~ynh1
 
 **Démo :** http://demo.horde.org
 
@@ -83,7 +83,7 @@ For calendar, task and addressbook activeSync has been configured but not yet te
 
 * Site officiel de l'app : <https://www.horde.org>
 * Documentation officielle de l'admin : <https://wiki.horde.org>
-* Dépôt de code officiel de l'app : <https://github.com/horde>
+* Dépôt de code officiel de l'app : <https://github.com/horde/base>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_horde>
 * Signaler un bug : <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
