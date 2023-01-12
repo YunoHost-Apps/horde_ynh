@@ -24,7 +24,7 @@ A groupware (webmail, adressbook, calendar) witch use PHP
 
 ## Captures d'écran
 
-![Capture d'écran de Horde](./doc/screenshots/screenshot01.png)
+![Capture d'écran de Horde](./doc/screenshots/screenshot.png)
 
 ## Avertissements / informations importantes
 
