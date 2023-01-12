@@ -3,8 +3,8 @@
     "id": "horde",
     "packaging_format": 1,
     "description": {
-        "en": "A groupware (webmail, adressbook, calendar) that uses PHP",
-        "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
+        "en": "Groupware (webmail, adressbook, calendar)",
+        "fr": "Groupware (webmail, carnet adresses, agenda)"
     },
     "version": "5.2.23~ynh1",
     "url": "https://www.horde.org/",
@@ -21,12 +21,12 @@
         "email": "josue@tille.ch"
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.0.9"
     },
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.3-fpm",
+        "php7.4-fpm",
         "mysql"
     ],
     "arguments": {
