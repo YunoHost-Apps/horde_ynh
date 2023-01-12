@@ -3,17 +3,17 @@
     "id": "horde",
     "packaging_format": 1,
     "description": {
-        "en": "A groupware (webmail, adressbook, calendar) that uses PHP",
-        "fr": "Un groupware (webmail, carnet adresses, agenda), utilisant PHP."
+        "en": "Groupware (webmail, adressbook, calendar)",
+        "fr": "Groupware (webmail, carnet adresses, agenda)"
     },
-    "version": "5.2.22~ynh5",
+    "version": "5.2.23~ynh1",
     "url": "https://www.horde.org/",
     "upstream": {
         "license": "LGPL-2.0",
         "website": "https://www.horde.org",
         "demo": "http://demo.horde.org",
         "admindoc": "https://wiki.horde.org",
-        "code": "https://github.com/horde"
+        "code": "https://github.com/horde/base"
     },
     "license": "LGPL-2.0",
     "maintainer": {
@@ -21,16 +21,16 @@
         "email": "josue@tille.ch"
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.0.9"
     },
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.3-fpm",
+        "php7.4-fpm",
         "mysql"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
                 "type": "domain"
@@ -54,20 +54,39 @@
                     "fr": "Choisissez la langue de l'application"
                 },
                 "choices": [
-                    "bg", "de", "en", "es", "fi", "fo", "fr", "hr", "hu",
-                    "id", "is", "it", "lt", "lv", "mg", "mk", "mt", "nl",
-                    "pl", "pt", "ro", "ru", "sk", "so", "th", "tr", "uz"
-                    ],
+                    "bg",
+                    "de",
+                    "en",
+                    "es",
+                    "fi",
+                    "fo",
+                    "fr",
+                    "hr",
+                    "hu",
+                    "id",
+                    "is",
+                    "it",
+                    "lt",
+                    "lv",
+                    "mg",
+                    "mk",
+                    "mt",
+                    "nl",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "so",
+                    "th",
+                    "tr",
+                    "uz"
+                ],
                 "default": "en"
             },
             {
                 "name": "admin",
-                "type": "user",
-                "ask": {
-                    "en": "Choose an admin user",
-                    "fr": "Choisissez l’administrateur"
-                },
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "service_autodiscovery",

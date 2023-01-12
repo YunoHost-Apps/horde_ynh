@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -24,7 +24,7 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 port=$(ynh_app_setting_get --app=$app --key=port)
 secret_key=$(ynh_app_setting_get --app=$app --key=secret_key)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$(ynh_app_setting_get --app=$app --key=db_user)
+db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 gollem_data_dir=$(ynh_app_setting_get --app=$app --key=gollem_data_dir)
 
@@ -38,12 +38,11 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
-	ynh_clean_check_starting
 	# Restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
@@ -55,7 +54,7 @@ ynh_abort_if_errors
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # Cleaning legacy permissions
 if ynh_legacy_permissions_exists; then
@@ -69,58 +68,68 @@ if [ -z "$gollem_data_dir" ]; then
 	gollem_data_dir=/home/yunohost.app/$app
 	ynh_app_setting_set --app=$app --key=gollem_data_dir --value=$gollem_data_dir
 fi
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
+ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
-config_nginx
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
-install_dependance
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading PHP-FPM configuration..."
+ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
 
 #=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
+
+# Create a dedicated NGINX config
+config_nginx
+
+#=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# ...
+# UPGRADE SOURCE FILE
 #=================================================
-# Upgrade Horde by PEAR
 ynh_script_progression --message="Upgrading source files..." --weight=6
+
 pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
 $pear_cmd channel-update pear.horde.org
 $pear_cmd upgrade -R $final_path -a -B -c pear.horde.org || true
 
-# Patch the app
+#=================================================
+# PATCH APPLICATION
+#=================================================
 ynh_script_progression --message="Patching application..." --weight=7
+
 patch_app
 
-# Configure Horde
+#=================================================
+# CONFIGURE HORDE
+#=================================================
 ynh_script_progression --message="Configuring application..." --weight=3
+
 config_horde
 
+#=================================================
 # SECURE FILES AND DIRECTORIES
+#=================================================
 ynh_script_progression --message="Protecting directory..."
+
 set_permission
 
 #=================================================
@@ -128,16 +137,16 @@ set_permission
 #=================================================
 # SETUP LOGROTATE
 #=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..."
+ynh_script_progression --message="Upgrading logrotate configuration..." --weight=1
 
-ynh_use_logrotate $final_path/horde --nonappend --specific_user www-data/horde
-ynh_use_logrotate $final_path/horde/services --append --specific_user www-data/horde
-ynh_use_logrotate $final_path/horde/services/portal --append --specific_user www-data/horde
+ynh_use_logrotate --logfile="$final_path/horde" --nonappend --specific_user www-data/horde
+ynh_use_logrotate --logfile="$final_path/horde/services" --specific_user www-data/horde
+ynh_use_logrotate --logfile="$final_path/horde/services/portal" --specific_user www-data/horde
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -145,4 +154,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed"
+ynh_script_progression --message="Upgrade of $app completed" --last
