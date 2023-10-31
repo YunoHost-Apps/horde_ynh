@@ -5,15 +5,16 @@ It shall NOT be edited by hand.
 
 # Horde pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)
+
 [![Installer Horde avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=horde)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Horde rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Horde rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 A groupware (webmail, adressbook, calendar) witch use PHP
 
@@ -22,9 +23,9 @@ A groupware (webmail, adressbook, calendar) witch use PHP
 
 **Démo :** http://demo.horde.org
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de Horde](./doc/screenshots/screenshot.png)
+![Capture d’écran de Horde](./doc/screenshots/screenshot.png)
 
 ## Avertissements / informations importantes
 
@@ -81,10 +82,10 @@ For calendar, task and addressbook activeSync has been configured but not yet te
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://www.horde.org>
-* Documentation officielle de l'admin : <https://wiki.horde.org>
-* Dépôt de code officiel de l'app : <https://github.com/horde/base>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_horde>
+* Site officiel de l’app : <https://www.horde.org>
+* Documentation officielle de l’admin : <https://wiki.horde.org>
+* Dépôt de code officiel de l’app : <https://github.com/horde/base>
+* YunoHost Store: <https://apps.yunohost.org/app/horde>
 * Signaler un bug : <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
 ## Informations pour les développeurs
@@ -99,4 +100,4 @@ ou
 sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
