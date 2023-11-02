@@ -45,6 +45,6 @@ For calendar, task and addressbook activeSync has been configured but not yet te
 **Get Address is missing domain while to try to send an email.**
 
 - You need to create an identity before send an email.
-- To create this go in the settings wheel > Preferences > Global Preferences > Personal Information.
+- To create this, go in the settings wheel > Preferences > Global Preferences > Personal Information.
 - Complete the form and save it.
-- You might be able to send an email now.
+- You should be able to send an email now.
