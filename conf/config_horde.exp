@@ -1,13 +1,13 @@
 #!/usr/bin/expect
 set timeout 10
 
-set final_path  [lindex $argv 0]
+set install_dir  [lindex $argv 0]
 set db_name [lindex $argv 1]
 set db_user [lindex $argv 2]
 set db_password [lindex $argv 3]
 set admin_user [lindex $argv 4]
 
-spawn php -d include_path=$final_path/pear/php $final_path/pear/webmail-install
+spawn php -d include_path=$install_dir/pear/php $install_dir/pear/webmail-install
 
 expect "What database backend should we use?"
 send "mysql\r";
