@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Horde for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![Working status](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![Working status](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)
+
 [![Install Horde with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=horde)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -84,7 +85,7 @@ For calendar, task and addressbook activeSync has been configured but not yet te
 * Official app website: <https://www.horde.org>
 * Official admin documentation: <https://wiki.horde.org>
 * Upstream app code repository: <https://github.com/horde/base>
-* YunoHost documentation for this app: <https://yunohost.org/app_horde>
+* YunoHost Store: <https://apps.yunohost.org/app/horde>
 * Report a bug: <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
 ## Developer info
