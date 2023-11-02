@@ -36,7 +36,7 @@ config_horde() {
     ynh_replace_string --match_string __FINAL_PATH__ --replace_string "$final_path" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __DB_NAME__ --replace_string "$db_name" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __DB_USER__ --replace_string "$db_user" --target_file "$final_path/horde/config/conf.php"
-    ynh_replace_string --match_string __DB_PASSWORD__ --replace_string "$db_pwd" --target_file "$final_path/horde/config/conf.php"
+    ynh_replace_string --match_string __DB_PWD__ --replace_string "$db_pwd" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __ADMIN_USER__ --replace_string "$admin" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __SECRET_KEY__ --replace_string "$secret_key" --target_file "$final_path/horde/config/conf.php"
     
