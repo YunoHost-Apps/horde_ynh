@@ -16,7 +16,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-A groupware (webmail, adressbook, calendar) witch use PHP
+Horde Groupware Webmail Edition is a free, enterprise ready, browser based communication suite. Users can read, send and organize email messages and manage and share calendars, contacts, tasks and notes with the standards compliant components from the Horde Project.
 
 
 **Shipped version:** 5.2.23~ynh1
