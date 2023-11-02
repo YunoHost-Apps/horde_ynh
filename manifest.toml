@@ -23,7 +23,7 @@ multi_instance = true
 ldap = false
 sso = false
 disk = "50M"
-ram.build = "50M"
+ram.build = "500M"
 ram.runtime = "50M"
 
 [install]
@@ -36,7 +36,7 @@ ram.runtime = "50M"
 
     [install.init_main_permission]
     type = "group"
-    default = false
+    default = "visitors"
 
     [install.language]
     ask.en = "Choose the application language"
@@ -49,28 +49,32 @@ ram.runtime = "50M"
     type = "user"
 
     [install.service_autodiscovery]
-    ask.en = "Would you like to enable the caldDav/cardDAV service autodiscovery?"
-    ask.fr = "Voulez-vous activer l'autodécouverte des services calDAV/cardDAV?"
+    ask.en = "Enable the caldDav/cardDAV service autodiscovery?"
+    ask.fr = "Activer l'autodécouverte des services calDAV/cardDAV ?"
     type = "boolean"
     default = false
 
     [install.whups_install]
     ask.en = "Install a ticket-tracking system (Whups)?"
+    ask.fr = "Installer un système de suivi des tickets (Whups) ?"
     type = "boolean"
     default = false
 
     [install.sesha_install]
     ask.en = "Install a Inventory Manager (Sesha)?"
+    ask.fr = "Installer un gestionnaire d'inventaire (Sesha) ?"
     type = "boolean"
     default = false
 
     [install.ansel_install]
     ask.en = "Install a full featured photo management (Ansel)?"
+    ask.fr = "Installer un gestion de photos (Ansel) ?"
     type = "boolean"
     default = false
 
     [install.wicked_install]
     ask.en = "Install a Wiki (Wicked)?"
+    ask.fr = "Installer un Wiki (Wicked) ?"
     type = "boolean"
     default = false
 
