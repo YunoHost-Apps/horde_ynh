@@ -11,7 +11,7 @@ YNH_PHP_VERSION="7.4"
 php_dependencies="php$YNH_PHP_VERSION-pear php$YNH_PHP_VERSION-imagick php$YNH_PHP_VERSION-tidy php$YNH_PHP_VERSION-bcmath"
 
 # dependencies used by the app (must be on a single line)
-pkg_dependencies="expect $php_dependencies"
+pkg_dependencies="expect php-pear $php_dependencies"
 
 #=================================================
 # PERSONAL HELPERS
