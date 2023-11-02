@@ -142,18 +142,6 @@ ynh_use_logrotate --logfile="$install_dir/horde/services" --specific_user www-da
 ynh_use_logrotate --logfile="$install_dir/horde/services/portal" --specific_user www-data/horde
 
 #=================================================
-# SETUP SSOWAT
-#=================================================
-#REMOVEME? ynh_script_progression --message="Configuring permissions..." --weight=1
-
-#REMOVEME? if [ "$is_public" = "0" ];
-then	# Retire l'accès public
-    ynh_app_setting_delete --app=$app --key=skipped_uris
-else
-    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
-fi
-
-#=================================================
 # END OF SCRIPT
 #=================================================
 

@@ -23,25 +23,31 @@ config_horde() {
     ynh_backup_if_checksum_is_different --file "$install_dir/horde/gollem/config/backends.local.php"
     ynh_backup_if_checksum_is_different --file "$install_dir/horde/ingo/config/backends.local.php"
 
-    cp ../conf/horde_conf.php "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __DOMAIN__ --replace_string "$domain" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __PATH__ --replace_string "$path" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __INSTALL_DIR__ --replace_string "$install_dir" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __DB_NAME__ --replace_string "$db_name" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __DB_USER__ --replace_string "$db_user" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __DB_PWD__ --replace_string "$db_pwd" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __ADMIN__ --replace_string "$admin" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __SECRET_KEY__ --replace_string "$secret_key" --target_file "$install_dir/horde/config/conf.php"
+    #cp ../conf/horde_conf.php "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __DOMAIN__ --replace_string "$domain" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __PATH__ --replace_string "$path" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __INSTALL_DIR__ --replace_string "$install_dir" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __DB_NAME__ --replace_string "$db_name" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __DB_USER__ --replace_string "$db_user" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __DB_PWD__ --replace_string "$db_pwd" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __ADMIN__ --replace_string "$admin" --target_file "$install_dir/horde/config/conf.php"
+    #ynh_replace_string --match_string __SECRET_KEY__ --replace_string "$secret_key" --target_file "$install_dir/horde/config/conf.php"
     
-    cp ../conf/horde_imp_conf.php "$install_dir/horde/imp/config/conf.php"
+    ynh_add_config --template="horde_conf.php" --destination="$install_dir/horde/config/conf.php"
+
+    ynh_add_config --template="/horde_imp_conf.php" --destination="$install_dir/horde/imp/config/conf.php"
+    #cp ../conf/horde_imp_conf.php "$install_dir/horde/imp/config/conf.php"
     
-    cp ../conf/horde_registry.php "$install_dir/horde/config/registry.local.php"
-    ynh_replace_string --match_string __PATH__ --replace_string "$path" --target_file "$install_dir/horde/config/registry.local.php"
+    ynh_add_config --template="horde_registry.php" --destination="$install_dir/horde/config/registry.local.php"
+    #cp ../conf/horde_registry.php "$install_dir/horde/config/registry.local.php"
+    #ynh_replace_string --match_string __PATH__ --replace_string "$path" --target_file "$install_dir/horde/config/registry.local.php"
 
-    cp ../conf/gollem_backends.php "$install_dir/horde/gollem/config/backends.local.php"
-    ynh_replace_string --match_string __GOLLEM_DATA_DIR__ --replace_string "$gollem_data_dir" --target_file "$install_dir/horde/gollem/config/backends.local.php"
+    ynh_add_config --template="gollem_backends.php" --destination="$install_dir/horde/gollem/config/backends.local.php"
+    #cp ../conf/gollem_backends.php "$install_dir/horde/gollem/config/backends.local.php"
+    #ynh_replace_string --match_string __DATA_DIR__ --replace_string "$data_dir" --target_file "$install_dir/horde/gollem/config/backends.local.php"
 
-    cp ../conf/ingo_backends.php "$install_dir/horde/ingo/config/backends.local.php"
+    ynh_add_config --template="ingo_backends.php" --destination="$install_dir/horde/ingo/config/backends.local.php"
+    #cp ../conf/ingo_backends.php "$install_dir/horde/ingo/config/backends.local.php"
 
     ynh_store_file_checksum --file "$install_dir/horde/config/conf.php"
     ynh_store_file_checksum --file "$install_dir/horde/imp/config/conf.php"
@@ -87,9 +93,9 @@ add_nginx_autodiscovery() {
 
 set_permission() {
     chown -R www-data:$app $install_dir
-    chown -R www-data:$app $gollem_data_dir
+    chown -R www-data:$app $data_dir
     chmod u=rwX,g=rwX,o= -R $install_dir
-    chmod u=rwX,g=rwX,o= -R $gollem_data_dir
+    chmod u=rwX,g=rwX,o= -R $data_dir
 }
 
 #=================================================
