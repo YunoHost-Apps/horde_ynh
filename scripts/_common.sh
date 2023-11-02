@@ -6,9 +6,6 @@
 # PHP APP SPECIFIC
 #=================================================
 
-#REMOVEME? YNH_PHP_VERSION="7.4"
-
-
 #=================================================
 # PERSONAL HELPERS
 #=================================================
@@ -29,11 +26,11 @@ config_horde() {
     cp ../conf/horde_conf.php "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __DOMAIN__ --replace_string "$domain" --target_file "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __PATH__ --replace_string "$path" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __FINAL_PATH__ --replace_string "$install_dir" --target_file "$install_dir/horde/config/conf.php"
+    ynh_replace_string --match_string __INSTALL_DIR__ --replace_string "$install_dir" --target_file "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __DB_NAME__ --replace_string "$db_name" --target_file "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __DB_USER__ --replace_string "$db_user" --target_file "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __DB_PWD__ --replace_string "$db_pwd" --target_file "$install_dir/horde/config/conf.php"
-    ynh_replace_string --match_string __ADMIN_USER__ --replace_string "$admin" --target_file "$install_dir/horde/config/conf.php"
+    ynh_replace_string --match_string __ADMIN__ --replace_string "$admin" --target_file "$install_dir/horde/config/conf.php"
     ynh_replace_string --match_string __SECRET_KEY__ --replace_string "$secret_key" --target_file "$install_dir/horde/config/conf.php"
     
     cp ../conf/horde_imp_conf.php "$install_dir/horde/imp/config/conf.php"
