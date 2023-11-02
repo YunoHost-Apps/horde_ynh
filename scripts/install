@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
-#REMOVEME? ynh_script_progression --message="Storing installation settings..."
+ynh_script_progression --message="Storing installation settings..."
 
 ynh_app_setting_set --app=$app --key=language --value=$language
 ynh_app_setting_set --app=$app --key=service_autodiscovery --value=$service_autodiscovery
@@ -126,7 +126,7 @@ config_horde
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
-ynh_script_progression --message="Protecting directory..."
+ynh_script_progression --message="Protecting directory..." --weight=1
 
 set_permission
 
