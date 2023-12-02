@@ -10,16 +10,8 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STORE SETTINGS FROM MANIFEST
+# OPTIONAL APPS
 #=================================================
-ynh_script_progression --message="Storing installation settings..."
-
-ynh_app_setting_set --app=$app --key=language --value=$language
-ynh_app_setting_set --app=$app --key=service_autodiscovery --value=$service_autodiscovery
-ynh_app_setting_set --app=$app --key=whups_install --value=$whups_install
-ynh_app_setting_set --app=$app --key=sesha_install --value=$sesha_install
-ynh_app_setting_set --app=$app --key=ansel_install --value=$ansel_install
-ynh_app_setting_set --app=$app --key=wicked_install --value=$wicked_install
 
 # Set list of optionnal app to install
 optionnal_apps_list=""
