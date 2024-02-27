@@ -6,10 +6,12 @@
 # PHP APP SPECIFIC
 #=================================================
 
-php_dependencies="php$YNH_DEFAULT_PHP_VERSION-pear php$YNH_DEFAULT_PHP_VERSION-imagick php$YNH_DEFAULT_PHP_VERSION-tidy php$YNH_DEFAULT_PHP_VERSION-bcmath"
+YNH_PHP_VERSION="7.4"
+
+php_dependencies="php-pear php$YNH_PHP_VERSION-imagick php$YNH_PHP_VERSION-tidy php$YNH_PHP_VERSION-bcmath"
 
 # dependencies used by the app (must be on a single line)
-pkg_dependencies="expect $php_dependencies"
+pkg_dependencies="expect php-pear $php_dependencies"
 
 #=================================================
 # PERSONAL HELPERS
@@ -34,7 +36,7 @@ config_horde() {
     ynh_replace_string --match_string __FINAL_PATH__ --replace_string "$final_path" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __DB_NAME__ --replace_string "$db_name" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __DB_USER__ --replace_string "$db_user" --target_file "$final_path/horde/config/conf.php"
-    ynh_replace_string --match_string __DB_PASSWORD__ --replace_string "$db_pwd" --target_file "$final_path/horde/config/conf.php"
+    ynh_replace_string --match_string __DB_PWD__ --replace_string "$db_pwd" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __ADMIN_USER__ --replace_string "$admin" --target_file "$final_path/horde/config/conf.php"
     ynh_replace_string --match_string __SECRET_KEY__ --replace_string "$secret_key" --target_file "$final_path/horde/config/conf.php"
     
