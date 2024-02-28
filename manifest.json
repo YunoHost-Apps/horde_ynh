@@ -6,7 +6,7 @@
         "en": "Groupware (webmail, adressbook, calendar)",
         "fr": "Groupware (webmail, carnet adresses, agenda)"
     },
-    "version": "5.2.23~ynh1",
+    "version": "6.0.0alpha6~ynh1",
     "url": "https://www.horde.org/",
     "upstream": {
         "license": "LGPL-2.0",
