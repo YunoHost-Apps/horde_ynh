@@ -17,24 +17,11 @@ patch_app() {
 }
 
 config_horde() {
-    ynh_backup_if_checksum_is_different --file "$install_dir/horde/config/conf.php"
-    ynh_backup_if_checksum_is_different --file "$install_dir/horde/imp/config/conf.php"
-    ynh_backup_if_checksum_is_different --file "$install_dir/horde/config/registry.local.php"
-    ynh_backup_if_checksum_is_different --file "$install_dir/horde/gollem/config/backends.local.php"
-    ynh_backup_if_checksum_is_different --file "$install_dir/horde/ingo/config/backends.local.php"
-
-
     ynh_add_config --template="horde_conf.php" --destination="$install_dir/horde/config/conf.php"
     ynh_add_config --template="/horde_imp_conf.php" --destination="$install_dir/horde/imp/config/conf.php"
     ynh_add_config --template="horde_registry.php" --destination="$install_dir/horde/config/registry.local.php"
     ynh_add_config --template="gollem_backends.php" --destination="$install_dir/horde/gollem/config/backends.local.php"
     ynh_add_config --template="ingo_backends.php" --destination="$install_dir/horde/ingo/config/backends.local.php"
-
-    ynh_store_file_checksum --file "$install_dir/horde/config/conf.php"
-    ynh_store_file_checksum --file "$install_dir/horde/imp/config/conf.php"
-    ynh_store_file_checksum --file "$install_dir/horde/config/registry.local.php"
-    ynh_store_file_checksum --file "$install_dir/horde/gollem/config/backends.local.php"
-    ynh_store_file_checksum --file "$install_dir/horde/ingo/config/backends.local.php"
 }
 
 config_nginx() {
