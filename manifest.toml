@@ -7,7 +7,7 @@ description.fr = "Groupware (webmail, carnet adresses, agenda)"
 
 version = "5.2.23~ynh1"
 
-maintainers = ["Josué Tille"]
+maintainers = []
 
 [upstream]
 license = "LGPL-2.0"
