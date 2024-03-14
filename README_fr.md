@@ -16,77 +16,23 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 
 ## Vue d’ensemble
 
-A groupware (webmail, adressbook, calendar) witch use PHP
-
+Horde Groupware Webmail Edition est une suite de communication gratuite, adaptée aux entreprises et basée sur un navigateur. Les utilisateurs peuvent lire, envoyer et organiser des messages électroniques et gérer et partager des calendriers, des contacts, des tâches et des notes avec les composants conformes aux normes du projet Horde.
 
 **Version incluse :** 5.2.23~ynh1
 
-**Démo :** http://demo.horde.org
+**Démo :** <http://demo.horde.org>
 
 ## Captures d’écran
 
 ![Capture d’écran de Horde](./doc/screenshots/screenshot.png)
 
-## Avertissements / informations importantes
-
-### Customisation
-
-#### Install others app.
-
-The package provide some apps, but it's could be possible to install some others apps. The list of all availabe apps are listed here : https://www.horde.org/apps
-
-Before any change it's recommended to make a backup :
-```bash
-# In case of multiple instance adapt "horde" by the horde instance
-sudo yunohost backup create --verbose --ignore-system --apps horde
-```
-
-Install horde apps with pear :
-
-```bash
-# Get the horde final_path
-# In case of multiple instance adapt "horde" by the horde instance
-final_path=$(yunohost app setting horde final_path)
-
-# Set the pear command to call to stay in the horde environnement (not in the global system environnement)
-pear_cmd="$final_path/pear/pear -c $final_path/pear.conf"
-
-# Update the pear channel
-$pear_cmd channel-update pear.horde.org
-
-# Install the app that you want
-$pear_cmd install -a -B horde/APP_TO_INSTALL
-
-# Set the final permission
-# In case of multiple instance adapt "horde" by the horde instance
-chown -R www-data:horde $final_path
-
-```
-
-After you need to update the horde database schema and the horde config. So go on the horde config pannel (in the settings wheel > Preferences > Administration > Configuration). Click on "Update all DB schemas" and then on "Update all configurations".
-
-Now you should be able to use the new apps.
-
-### ActiveSync
-
-For calendar, task and addressbook activeSync has been configured but not yet tested.
-
-### Troubleshotting
-
-**Get Address is missing domain while to try to send an email.**
-
-- You need to create an identity before send an email.
-- To create this go in the settings wheel > Preferences > Global Preferences > Personal Information.
-- Complete the form and save it.
-- You might be able to sed an email now.
-
 ## Documentations et ressources
 
-* Site officiel de l’app : <https://www.horde.org>
-* Documentation officielle de l’admin : <https://wiki.horde.org>
-* Dépôt de code officiel de l’app : <https://github.com/horde/base>
-* YunoHost Store: <https://apps.yunohost.org/app/horde>
-* Signaler un bug : <https://github.com/YunoHost-Apps/horde_ynh/issues>
+- Site officiel de l’app : <https://www.horde.org>
+- Documentation officielle de l’admin : <https://wiki.horde.org>
+- Dépôt de code officiel de l’app : <https://github.com/horde/base>
+- YunoHost Store : <https://apps.yunohost.org/app/horde>
+- Signaler un bug : <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
 ## Informations pour les développeurs
 
@@ -94,7 +40,7 @@ Merci de faire vos pull request sur la [branche testing](https://github.com/Yuno
 
 Pour essayer la branche testing, procédez comme suit.
 
-``` bash
+```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
 ou
 sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug

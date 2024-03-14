@@ -1,0 +1,10 @@
+test_format = 1.0
+
+[default]
+
+
+		args.service_autodiscovery=1
+		args.whups_install=1
+		args.sesha_install=1
+		args.ansel_install=1
+		args.wicked_install=1

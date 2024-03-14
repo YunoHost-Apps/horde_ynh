@@ -103,7 +103,7 @@ $backends['file'] = array(
     'hordeauth' => true,
     'params' => array(
         // The base location under which the user home directories live.
-        'vfsroot' => '__GOLLEM_DATA_DIR__',
+        'vfsroot' => '__DATA_DIR__',
         // The default permissions to set for newly created folders and files.
         // 'permissions' => '750'
     ),
