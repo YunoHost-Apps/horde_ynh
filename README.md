@@ -18,10 +18,9 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Horde Groupware Webmail Edition is a free, enterprise ready, browser based communication suite. Users can read, send and organize email messages and manage and share calendars, contacts, tasks and notes with the standards compliant components from the Horde Project.
 
-
 **Shipped version:** 5.2.23~ynh1
 
-**Demo:** http://demo.horde.org
+**Demo:** <http://demo.horde.org>
 
 ## Screenshots
 
@@ -29,11 +28,11 @@ Horde Groupware Webmail Edition is a free, enterprise ready, browser based commu
 
 ## Documentation and resources
 
-* Official app website: <https://www.horde.org>
-* Official admin documentation: <https://wiki.horde.org>
-* Upstream app code repository: <https://github.com/horde/base>
-* YunoHost Store: <https://apps.yunohost.org/app/horde>
-* Report a bug: <https://github.com/YunoHost-Apps/horde_ynh/issues>
+- Official app website: <https://www.horde.org>
+- Official admin documentation: <https://wiki.horde.org>
+- Upstream app code repository: <https://github.com/horde/base>
+- YunoHost Store: <https://apps.yunohost.org/app/horde>
+- Report a bug: <https://github.com/YunoHost-Apps/horde_ynh/issues>
 
 ## Developer info
 
@@ -41,7 +40,7 @@ Please send your pull request to the [testing branch](https://github.com/YunoHos
 
 To try the testing branch, please proceed like that.
 
-``` bash
+```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade horde -u https://github.com/YunoHost-Apps/horde_ynh/tree/testing --debug
