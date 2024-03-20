@@ -1,0 +1,95 @@
+packaging_format = 2
+
+id = "horde"
+name = "Horde"
+description.en = "Groupware (webmail, adressbook, calendar)"
+description.fr = "Groupware (webmail, carnet adresses, agenda)"
+
+version = "5.2.23~ynh1"
+
+maintainers = []
+
+[upstream]
+license = "LGPL-2.0"
+website = "https://www.horde.org"
+demo = "http://demo.horde.org"
+admindoc = "https://wiki.horde.org"
+code = "https://github.com/horde/base"
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all"
+multi_instance = true
+ldap = false
+sso = false
+disk = "50M"
+ram.build = "500M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.path]
+    type = "path"
+    default = "/horde"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.language]
+    ask.en = "Choose the application language"
+    ask.fr = "Choisissez la langue de l'application"
+    type = "select"
+    choices = ["bg", "de", "en", "es", "fi", "fo", "fr", "hr", "hu", "id", "is", "it", "lt", "lv", "mg", "mk", "mt", "nl", "pl", "pt", "ro", "ru", "sk", "so", "th", "tr", "uz"]
+    default = "en"
+
+    [install.admin]
+    type = "user"
+
+    [install.service_autodiscovery]
+    ask.en = "Enable the caldDav/cardDAV service autodiscovery?"
+    ask.fr = "Activer l'autodécouverte des services calDAV/cardDAV ?"
+    type = "boolean"
+    default = false
+
+    [install.whups_install]
+    ask.en = "Install a ticket-tracking system (Whups)?"
+    ask.fr = "Installer un système de suivi des tickets (Whups) ?"
+    type = "boolean"
+    default = false
+
+    [install.sesha_install]
+    ask.en = "Install a Inventory Manager (Sesha)?"
+    ask.fr = "Installer un gestionnaire d'inventaire (Sesha) ?"
+    type = "boolean"
+    default = false
+
+    [install.ansel_install]
+    ask.en = "Install a full featured photo management (Ansel)?"
+    ask.fr = "Installer un gestion de photos (Ansel) ?"
+    type = "boolean"
+    default = false
+
+    [install.wicked_install]
+    ask.en = "Install a Wiki (Wicked)?"
+    ask.fr = "Installer un Wiki (Wicked) ?"
+    type = "boolean"
+    default = false
+
+[resources]
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.apt]
+    packages = "mariadb-server, php-pear, php7.4-imagick, php7.4-tidy, php7.4-bcmath, expect"
+
+    [resources.database]
+    type = "mysql"

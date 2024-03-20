@@ -1,0 +1,1 @@
+Horde Groupware Webmail Edition est une suite de communication gratuite, adaptée aux entreprises et basée sur un navigateur. Les utilisateurs peuvent lire, envoyer et organiser des messages électroniques et gérer et partager des calendriers, des contacts, des tâches et des notes avec les composants conformes aux normes du projet Horde.
