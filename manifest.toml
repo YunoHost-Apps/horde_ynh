@@ -5,7 +5,7 @@ name = "Horde"
 description.en = "Groupware (webmail, adressbook, calendar)"
 description.fr = "Groupware (webmail, carnet adresses, agenda)"
 
-version = "5.2.23~ynh1"
+version = "5.2.23~ynh2"
 
 maintainers = []
 
