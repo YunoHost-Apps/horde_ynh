@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Horde
+# YunoHost 上的 Horde
 
 [![集成程度](https://dash.yunohost.org/integration/horde.svg)](https://dash.yunohost.org/appci/app/horde) ![工作状态](https://ci-apps.yunohost.org/ci/badges/horde.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/horde.maintain.svg)
 
